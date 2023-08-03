@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 // import controller
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DashbordController;
+use App\Http\Controllers\Admin\ArtikelController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,3 +35,7 @@ Route::get('/belajar2', [HomeController::class, 'belajar2']);
 
 // route untuk dashbord controller
 Route::resource('dashbord', DashbordController::class);
+
+// route untuk artikel controller
+Route::resource('/admin/artikel', ArtikelController::class);
+
