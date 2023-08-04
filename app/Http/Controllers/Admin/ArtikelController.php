@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Artikel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ArtikelController extends Controller
 {
@@ -12,7 +14,13 @@ class ArtikelController extends Controller
      */
     public function index()
     {
-        return view('admin.index');
+        // select * from artikel
+        $data = Artikel::all();
+
+        // return view dan parsing data
+        return view('admin.index', [
+            'data' => $data
+        ]);
     }
 
     /**
@@ -28,7 +36,29 @@ class ArtikelController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // slug
+        $slug = Str::of($request->judul)->slug('-');
+
+        // resize thumbnail
+        $img = \Image::make($request->file('thumbnail')->getPathName());
+        $img->resize(100, 100)->save('thumbnail/thumbnail.jpg');
+
+        // upload file
+        $request->file('thumbnail')->move('thumbnail', 'thumbnail.jpg');
+
+        $nama_file = $request->file('thumbnail')->getClientOriginalName();
+
+        // insert artikel
+        Artikel::create([
+            'judul'     => $request->judul,
+            'tanggal'   => $request->tanggal,
+            'isi'       => $request->isi,
+            'slug'      => $slug,
+            'thumbnail'     => $nama_file,
+        ]);
+
+        // redirect ke halaman artikel
+        return redirect('/admin/artikel');
     }
 
     /**

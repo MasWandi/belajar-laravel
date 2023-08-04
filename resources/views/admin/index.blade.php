@@ -13,6 +13,9 @@
     <link rel="stylesheet" href="https://adminlte.io/themes/v3/plugins/fontawesome-free/css/all.min.css">
 
     <link rel="stylesheet" href="https://adminlte.io/themes/v3/dist/css/adminlte.min.css?v=3.2.0">
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -210,10 +213,16 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-12">
-
                             <div class="card">
+                                {{-- button create artikel --}}
+                                <div class="card-header">
+                                    <button type="button" class="btn btn-primary float-right" data-toggle="modal"
+                                        data-target="#exampleModal">
+                                        Tambah Artikel
+                                    </button>
+                                </div>
                                 <div class="card-body">
-                                    <table class="table" width="100%">
+                                    <table id="table_artikel" class="table" width="100%">
                                         <thead>
                                             <tr>
                                                 <th scope="col">#</th>
@@ -223,14 +232,58 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @foreach ($data as $item)
                                             <tr>
-                                                <th scope="row">1</th>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>@mdo</td>
+                                                <th scope="row">{{ $loop->iteration }}</th>
+                                                <td>{{ $item->judul }}</td>
+                                                <td>{{ date('d/m/Y', strtotime($item->tanggal)) }}</td>
+                                                <td><img src="{{ url('thumbnail/'.$item->thumbnail) }}" alt=""
+                                                        width="100px"></td>
                                             </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Button trigger modal -->
+
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Tambah Artikel</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form enctype="multipart/form-data" action="{{ route('artikel.store') }}" method="POST">
+                                            @csrf
+                                            <div class="form-group">
+                                              <label for="exampleFormControlInput1">Judul</label>
+                                              <input type="text" name="judul" class="form-control" id="exampleFormControlInput1" placeholder="Masukan judul artikel">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="exampleFormControlInput1">Tanggal</label>
+                                                <input type="date" name="tanggal" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                                              </div>
+                                              <div class="form-group">
+                                                <label for="exampleFormControlInput1">Thumbnail</label>
+                                                <input type="file" name="thumbnail" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                                              </div>
+                                            <div class="form-group">
+                                              <label for="exampleFormControlTextarea1">Isi</label>
+                                              <textarea class="form-control" name="isi" id="editor" rows="3"></textarea>
+                                            </div>
+                                            <div class="text-center">
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                            </div>
+                                          </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -259,13 +312,31 @@
         </footer>
     </div>
 
-
-
     <script src="https://adminlte.io/themes/v3/plugins/jquery/jquery.min.js"></script>
 
     <script src="https://adminlte.io/themes/v3/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <script src="https://adminlte.io/themes/v3/dist/js/adminlte.min.js?v=3.2.0"></script>
+
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.0/classic/ckeditor.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#table_artikel').DataTable();
+        });
+    </script>
+
+    <script>
+        ClassicEditor
+            .create( document.querySelector( '#editor' ) )
+            .catch( error => {
+                console.error( error );
+            } );
+    </script>
+
+
 </body>
 
 </html>
