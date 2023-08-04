@@ -39,12 +39,8 @@ class ArtikelController extends Controller
         // slug
         $slug = Str::of($request->judul)->slug('-');
 
-        // resize thumbnail
-        $img = \Image::make($request->file('thumbnail')->getPathName());
-        $img->resize(100, 100)->save('thumbnail/thumbnail.jpg');
-
         // upload file
-        $request->file('thumbnail')->move('thumbnail', 'thumbnail.jpg');
+        $request->file('thumbnail')->move('thumbnail', $request->file('thumbnail')->getClientOriginalName());
 
         $nama_file = $request->file('thumbnail')->getClientOriginalName();
 

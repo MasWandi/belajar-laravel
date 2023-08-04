@@ -18,7 +18,7 @@ use App\Http\Controllers\Admin\ArtikelController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('user.index');
 });
 
 Route::get('/sesi-2', function () {

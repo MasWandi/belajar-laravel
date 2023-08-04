@@ -218,7 +218,7 @@
                                 <div class="card-header">
                                     <button type="button" class="btn btn-primary float-right" data-toggle="modal"
                                         data-target="#exampleModal">
-                                        Tambah Artikel
+                                        Tambah Artikel <i class="fas fa-plus"></i>
                                     </button>
                                 </div>
                                 <div class="card-body">
@@ -238,7 +238,7 @@
                                                 <td>{{ $item->judul }}</td>
                                                 <td>{{ date('d/m/Y', strtotime($item->tanggal)) }}</td>
                                                 <td><img src="{{ url('thumbnail/'.$item->thumbnail) }}" alt=""
-                                                        width="100px"></td>
+                                                        width="100px" height="100px"></td>
                                             </tr>
                                             @endforeach
                                         </tbody>
